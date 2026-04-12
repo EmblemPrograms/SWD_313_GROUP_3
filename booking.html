@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complete Your Booking - HotelHub</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <style>
+    .hotel-summary { background: #f8f9fa; border-radius: 12px; }
+    .price-card { background: #fff; border: 2px solid #007bff; border-radius: 12px; }
+    .total-amount { font-size: 1.8rem; font-weight: bold; color: #007bff; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="index.html">🏨 HotelHub</a>
+    </div>
+  </nav>
+
+  <div class="container py-5">
+    <div class="row">
+
+      <!-- Left Column -->
+      <div class="col-lg-8">
+        <h2>Complete Your Booking</h2>
+        
+        <!-- Hotel Summary -->
+        <div class="card hotel-summary p-4 mb-4" id="hotelSummary">
+          <!-- Filled by JavaScript -->
+        </div>
+
+        <!-- Room Selection -->
+        <div class="card mb-4">
+          <div class="card-header bg-white">
+            <h5><i class="fas fa-bed"></i> Select Room Type</h5>
+          </div>
+          <div class="card-body" id="roomSelection">
+            <!-- Filled by JavaScript -->
+          </div>
+        </div>
+
+        <!-- Group Selection (Pre-filled from group-selection.html) -->
+        <div class="card mb-4">
+          <div class="card-header bg-white">
+            <h5><i class="fas fa-users"></i> Guest Details</h5>
+          </div>
+          <div class="card-body">
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label class="form-label">Adults</label>
+                <input type="number" id="adults" class="form-control" min="1" onchange="calculatePrice()">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Children (0-12)</label>
+                <input type="number" id="children" class="form-control" min="0" onchange="calculatePrice()">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Number of Rooms</label>
+                <input type="number" id="rooms" class="form-control" min="1" onchange="calculatePrice()">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Personal Information -->
+        <div class="card mb-4">
+          <div class="card-header bg-white">
+            <h5><i class="fas fa-user"></i> Personal Information</h5>
+          </div>
+          <div class="card-body">
+            <form id="bookingForm">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">Full Name</label>
+                  <input type="text" class="form-control" id="fullName" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Email Address</label>
+                  <input type="email" class="form-control" id="email" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Phone Number</label>
+                  <input type="tel" class="form-control" id="phone" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Special Requests (Optional)</label>
+                  <textarea class="form-control" id="specialRequests" rows="2"></textarea>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Price Summary -->
+      <div class="col-lg-4">
+        <div class="price-card p-4 sticky-top" style="top: 20px;">
+          <h5 class="mb-3">Price Summary</h5>
+          
+          <div id="priceBreakdown">
+            <!-- Dynamic price breakdown -->
+          </div>
+
+          <hr>
+          
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <strong>Total Amount</strong>
+            <span class="total-amount" id="totalAmount">₦0</span>
+          </div>
+
+          <button onclick="confirmBooking()" class="btn btn-success btn-lg w-100">
+            <i class="fas fa-lock"></i> Confirm & Pay
+          </button>
+          
+          <small class="text-muted d-block text-center mt-3">
+            ✅ Secure Payment • Free Cancellation (up to 48hrs)
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    let selectedHotel = null;
+    let selectedRoomPrice = 0;
+
+    // Get hotel ID from URL
+    function getHotelId() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('id');
+    }
+
+    // Load hotel details + group selection data
+    async function loadHotelAndGroup() {
+      const hotelId = getHotelId();
+      if (!hotelId) {
+        alert("No hotel selected!");
+        window.location.href = "hotels.html";
+        return;
+      }
+
+      try {
+        const response = await fetch('data/hotels.json');
+        const data = await response.json();
+        selectedHotel = data.hotels.find(h => h.id == hotelId);
+
+        if (!selectedHotel) throw new Error("Hotel not found");
+
+        // Set default room price
+        selectedRoomPrice = selectedHotel.rooms[0].price;
+
+        // Load hotel summary
+        renderHotelSummary();
+
+        // Load room options
+        renderRoomOptions();
+
+        // Load Group Selection Data from group-selection.html
+        loadGroupSelectionData();
+
+        // Calculate initial price
+        calculatePrice();
+
+      } catch (error) {
+        console.error(error);
+        document.getElementById('hotelSummary').innerHTML = `<p class="text-danger">Failed to load hotel details.</p>`;
+      }
+    }
+
+    function renderHotelSummary() {
+      document.getElementById('hotelSummary').innerHTML = `
+        <div class="row">
+          <div class="col-md-4">
+            <img src="${selectedHotel.image}" class="img-fluid rounded" style="height: 180px; object-fit: cover;" alt="${selectedHotel.name}">
+          </div>
+          <div class="col-md-8">
+            <h4>${selectedHotel.name}</h4>
+            <p class="text-muted mb-1">
+              <i class="fas fa-map-marker-alt"></i> ${selectedHotel.location}
+            </p>
+            <p><strong>Check-in:</strong> April 10, 2026 &nbsp; | &nbsp; <strong>Check-out:</strong> April 12, 2026</p>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderRoomOptions() {
+      let html = '';
+      selectedHotel.rooms.forEach(room => {
+        html += `
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="radio" name="roomType" 
+                   onclick="selectRoom(${room.price})" ${room.price === selectedRoomPrice ? 'checked' : ''}>
+            <label class="form-check-label">
+              <strong>${room.type}</strong> - ₦${room.price.toLocaleString()} / night
+              <small class="text-muted">(${room.available} available)</small>
+            </label>
+          </div>`;
+      });
+      document.getElementById('roomSelection').innerHTML = html;
+    }
+
+    function selectRoom(price) {
+      selectedRoomPrice = price;
+      calculatePrice();
+    }
+
+    // Load group data passed from group-selection.html
+    function loadGroupSelectionData() {
+      const groupData = JSON.parse(localStorage.getItem('groupSelection'));
+      
+      if (groupData) {
+        document.getElementById('adults').value = groupData.adults || 2;
+        document.getElementById('children').value = groupData.children || 0;
+        document.getElementById('rooms').value = groupData.rooms || 1;
+        
+        // Clear the stored data after using it
+        // localStorage.removeItem('groupSelection');  // Uncomment if you want to clear after use
+      }
+    }
+
+    function calculatePrice() {
+      const nights = 2; // You can make this dynamic later
+      const adults = parseInt(document.getElementById('adults').value) || 1;
+      const children = parseInt(document.getElementById('children').value) || 0;
+      const rooms = parseInt(document.getElementById('rooms').value) || 1;
+
+      const subtotal = selectedRoomPrice * rooms * nights;
+      const tax = subtotal * 0.075; // 7.5% tax
+      const total = subtotal + tax;
+
+      document.getElementById('priceBreakdown').innerHTML = `
+        <div class="d-flex justify-content-between mb-2">
+          <span>Room Charge (${rooms} room × ${nights} nights)</span>
+          <span>₦${subtotal.toLocaleString()}</span>
+        </div>
+        <div class="d-flex justify-content-between mb-2">
+          <span>Taxes & Fees (7.5%)</span>
+          <span>₦${tax.toLocaleString()}</span>
+        </div>
+      `;
+
+      document.getElementById('totalAmount').textContent = `₦${total.toLocaleString()}`;
+    }
+
+    function confirmBooking() {
+      if (!document.getElementById('bookingForm').checkValidity()) {
+        alert("Please fill all required fields!");
+        return;
+      }
+
+      const total = document.getElementById('totalAmount').textContent;
+      
+      const bookingData = {
+        hotel: selectedHotel,
+        roomPrice: selectedRoomPrice,
+        adults: document.getElementById('adults').value,
+        children: document.getElementById('children').value,
+        rooms: document.getElementById('rooms').value,
+        total: total,
+        name: document.getElementById('fullName').value,
+        email: document.getElementById('email').value,
+        checkin: "2026-04-10",
+        checkout: "2026-04-12"
+      };
+
+      localStorage.setItem('currentBooking', JSON.stringify(bookingData));
+      window.location.href = "confirmation.html";
+    }
+
+    // Initialize the page
+    window.onload = loadHotelAndGroup;
+  </script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+{
+  "hotels": [
+    {
+      "id": 1,
+      "name": "Grand Lagos Palace",
+      "location": "Lagos, Nigeria",
+      "rating": 4.8,
+      "reviews": 1240,
+      "pricePerNight": 45000,
+      "image": "https://static.wixstatic.com/media/4bf3c6_f07ebf1ee2494e528c76e00df3d12261~mv2.jpg/v1/fill/w_568,h_378,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/4bf3c6_f07ebf1ee2494e528c76e00df3d12261~mv2.jpg",
+      "type": "Luxury",
+      "amenities": ["Free WiFi", "Swimming Pool", "Spa", "Gym", "Restaurant"],
+      "description": "Iconic 5-star luxury hotel in Victoria Island.",
+      "rooms": [
+        { "type": "Standard", "price": 45000, "available": 15 },
+        { "type": "Deluxe", "price": 68000, "available": 8 }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Ocean Bay Resort",
+      "location": "Lekki, Lagos",
+      "rating": 4.6,
+      "reviews": 980,
+      "pricePerNight": 38000,
+      "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/c1/0d/93/ocean-bay-hotel-resort.jpg?w=900&h=500&s=1",
+      "type": "Resort",
+      "amenities": ["Beach Access", "Pool", "Restaurant", "Bar"],
+      "description": "Beautiful beachfront resort in Lekki.",
+      "rooms": [
+        { "type": "Standard", "price": 38000, "available": 20 },
+        { "type": "Ocean View", "price": 55000, "available": 10 }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Osun Royal Resort",
+      "location": "Osun State, Nigeria",
+      "rating": 4.3,
+      "reviews": 620,
+      "pricePerNight": 18000,
+      "image": "https://images.timbu.com/hotels-ng/supplier_royal_park_international_hotel_827375_2_900x550.jpg",
+      "type": "Resort",
+      "amenities": ["Pool", "Garden", "Restaurant", "Free WiFi"],
+      "description": "Peaceful resort in Osun State.",
+      "rooms": [
+        { "type": "Standard", "price": 18000, "available": 14 }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Heritage Springs Hotel",
+      "location": "Osun State, Nigeria",
+      "rating": 4.5,
+      "reviews": 480,
+      "pricePerNight": 22000,
+      "image": "https://www.odt.co.nz/sites/default/files/styles/odt_story_slideshow/public/story/2016/04/the_french_lick_springs_hotel__55e3e92e99.JPG?itok=Q9tdtuhj",
+      "type": "Boutique",
+      "amenities": ["Free WiFi", "Spa", "Restaurant"],
+      "description": "Cultural heritage hotel in Osun.",
+      "rooms": [
+        { "type": "Deluxe", "price": 22000, "available": 10 }
+      ]
+    },
+    
+    {
+      "id": 5,
+      "name": "Ede Imperial Hotel",
+      "location": "Ede, Osun State",
+      "rating": 4.3,
+      "reviews": 410,
+      "pricePerNight": 15500,
+      "image": "https://upload.wikimedia.org/wikipedia/commons/0/09/Interior_of_Imperial_Resort_Beach_Hotel.jpg",
+      "type": "Standard",
+      "amenities": ["Free WiFi", "Restaurant", "Parking"],
+      "description": "Best hotel in Ede town.",
+      "rooms": [
+        { "type": "Standard", "price": 15500, "available": 18 }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Crown Royale Ede",
+      "location": "Ede, Osun State",
+      "rating": 4.6,
+      "reviews": 290,
+      "pricePerNight": 21000,
+      "image": "https://images.getaroom-cdn.com/image/upload/s--hWEZCMUy--/c_limit,e_improve,fl_lossy.immutable_cache,h_460,q_auto:good,w_460/v1732692668/884739b41b7f676a52cd33405afe151ad17985aa?_a=BACAEuEv&atc=e7cd1cfa",
+      "type": "Boutique",
+      "amenities": ["Pool", "Garden", "WiFi"],
+      "description": "Elegant boutique hotel in Ede.",
+      "rooms": [
+        { "type": "Deluxe", "price": 21000, "available": 9 }
+      ]
+    },
+    
+    {
+      "id": 7,
+      "name": "Ibadan Continental Hotel",
+      "location": "Ibadan, Nigeria",
+      "rating": 4.6,
+      "reviews": 920,
+      "pricePerNight": 28000,
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCwMWmhP9kOd2WXV3lf3uzfADYsxAOfUdJCQ&s",
+      "type": "Business",
+      "amenities": ["Pool", "Gym", "Conference Hall"],
+      "description": "Largest and most popular hotel in Ibadan.",
+      "rooms": [
+        { "type": "Standard", "price": 28000, "available": 22 }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Premier Hotel Ibadan",
+      "location": "Ibadan, Nigeria",
+      "rating": 4.4,
+      "reviews": 780,
+      "pricePerNight": 25000,
+      "image": "https://cf.bstatic.com/xdata/images/hotel/max1024x768/295067519.jpg?k=24a7ffd0fd3274fa5bedbbdb38d652a0eedc7edc0f2c6e02f07543f9a2c9453f&o=",
+      "type": "Luxury",
+      "amenities": ["Garden", "Restaurant", "Bar"],
+      "description": "Historic and elegant hotel in Ibadan.",
+      "rooms": [
+        { "type": "Deluxe", "price": 25000, "available": 12 }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Ibadan Royal Hill",
+      "location": "Ibadan, Nigeria",
+      "rating": 4.3,
+      "reviews": 650,
+      "pricePerNight": 19500,
+      "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/27/6e/10/bc/aerial-view-of-the-hillside.jpg?w=900&h=-1&s=1",
+      "type": "Resort",
+      "amenities": ["Pool", "Free WiFi"],
+      "description": "Serene hotel on a hill in Ibadan.",
+      "rooms": [
+        { "type": "Standard", "price": 19500, "available": 15 }
+      ]
+    }
+  ]
+}
